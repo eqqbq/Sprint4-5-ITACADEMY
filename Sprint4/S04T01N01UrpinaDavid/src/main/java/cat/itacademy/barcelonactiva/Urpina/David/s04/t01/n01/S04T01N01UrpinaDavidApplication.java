@@ -10,5 +10,4 @@ public class S04T01N01UrpinaDavidApplication {
 		SpringApplication.run(S04T01N01UrpinaDavidApplication.class, args);
 	}
 
-	
 }
