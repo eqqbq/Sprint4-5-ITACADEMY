@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Branch</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<style>
+    body {
+        padding-top: 1em;
+    }
+</style>
+<div class="container text-center">
+    <form th:action="@{/branch/add}" th:object="${branchDTO}" method="post" class="needs-validation" novalidate>
+        <fieldset class="form-group">
+            <label for="branchName">Branch name</label>
+            <input type="text" class="form-control" id="branchName" th:field="*{branchName}" required>
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="branchCountry">Branch country</label>
+            <input type="text" class="form-control" id="branchCountry" th:field="*{branchCountry}" required>
+        </fieldset>
+        <button type="submit" class="btn btn-success">Submit branch</button>
+    </form>
+</div>
+</body>
+</html>

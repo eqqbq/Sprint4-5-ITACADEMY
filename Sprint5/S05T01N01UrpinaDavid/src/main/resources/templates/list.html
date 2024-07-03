@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Branch List</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<style>
+    body {
+        padding-top: 1em;
+    }
+</style>
+<div class="container text-center">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Branch Name</th>
+            <th>Branch Country</th>
+            <th>Branch Type</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="branch : ${branches}">
+            <td th:text="${branch.pk_branchId}">Id</td>
+            <td th:text="${branch.branchName}">Branch Name</td>
+            <td th:text="${branch.branchCountry}"></td>
+            <td th:text="${branch.branchType}"></td>
+            <td>
+                <a th:href="@{/branch/update/{id}(id=${branch.pk_branchId})}" class="btn btn-success btn-sm">Modify</a>
+                <form th:action="@{/branch/delete/{id}(id=${branch.pk_branchId})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
