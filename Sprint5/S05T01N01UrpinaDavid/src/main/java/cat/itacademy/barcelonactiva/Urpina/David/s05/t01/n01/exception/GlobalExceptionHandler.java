@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+@RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(BranchNotFoundException.class)
     public ResponseEntity<ErrorMessage> fruitNotFoundException(BranchNotFoundException ex, WebRequest request) {
