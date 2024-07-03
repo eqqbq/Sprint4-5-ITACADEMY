@@ -2,7 +2,7 @@ package cat.itacademy.barcelonactiva.Urpina.David.s04.t02.n01.controllers;
 
 
 import cat.itacademy.barcelonactiva.Urpina.David.s04.t02.n01.model.domain.Fruit;
-import cat.itacademy.barcelonactiva.Urpina.David.s04.t02.n01.model.services.FruitService;
+import cat.itacademy.barcelonactiva.Urpina.David.s04.t02.n01.model.service.impl.FruitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class FruitController {
 
     @Autowired
-    private FruitService fruitService;
+    private FruitServiceImpl fruitService;
 
     @PostMapping("/add")
     public ResponseEntity<Fruit> addFruit(@RequestBody Fruit fruit){
@@ -22,9 +22,9 @@ public class FruitController {
         return ResponseEntity.ok(savedFruit);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Fruit> updateFruit(@RequestBody Fruit fruit){
-        Fruit updatedFruit = fruitService.updateFruit(fruit);
+    @PutMapping("/updateFruit/{id}")
+    public ResponseEntity<Fruit> updateFruit(@PathVariable(value = "id") Long id, @RequestBody Fruit fruit){
+        Fruit updatedFruit = fruitService.updateFruit(fruit, id);
         return ResponseEntity.ok(updatedFruit);
     }
 
@@ -36,10 +36,8 @@ public class FruitController {
 
     @GetMapping("/getOne/{id}")
     public ResponseEntity<Fruit> getOneFruit(@PathVariable Long id){
-        return fruitService.getOneFruitById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-
+        Fruit selectedFruit = fruitService.getOneFruitById(id);
+        return ResponseEntity.ok(selectedFruit);
     }
 
     @GetMapping("/getAll")
