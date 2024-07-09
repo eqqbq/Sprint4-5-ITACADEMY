@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByPlayer_PlayerId(Long id);
-    int deleteByPlayer_PlayerId(Long id);
+    void deleteByPlayer_PlayerId(Long playerId);
+
 }

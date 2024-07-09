@@ -85,6 +85,8 @@ public class GameServiceImpl implements GameService {
 
     @Transactional
     public void deleteAllGamesByPlayer(Long playerId) {
-        int deletedGames = gameRepository.deleteByPlayer_PlayerId(playerId);
+       // Player player = playerRepository.findById(playerId).orElseThrow(() -> new PlayerNotFoundException("Player not found by ID: " +playerId));
+
+        gameRepository.deleteByPlayer_PlayerId(playerId);
     }
 }

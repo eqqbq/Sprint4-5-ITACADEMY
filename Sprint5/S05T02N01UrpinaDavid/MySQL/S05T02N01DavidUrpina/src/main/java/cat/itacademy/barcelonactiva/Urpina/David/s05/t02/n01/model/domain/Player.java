@@ -27,7 +27,7 @@ public class Player {
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "player")
     private List<Game> gameList;
 
     @ManyToOne
