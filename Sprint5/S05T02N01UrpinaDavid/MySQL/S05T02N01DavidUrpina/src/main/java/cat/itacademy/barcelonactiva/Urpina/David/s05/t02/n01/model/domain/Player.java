@@ -27,8 +27,12 @@ public class Player {
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Game> gameList;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public void addGame(Game game) {
         if (gameList == null) {

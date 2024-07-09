@@ -5,6 +5,7 @@ import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.dto.PlayerDTO
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.service.impl.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +20,14 @@ public class PlayerController {
     private PlayerServiceImpl playerService;
 
     @PostMapping("/")
-    public ResponseEntity<PlayerDTO> addPlayer(@RequestBody PlayerDTO playerDTO){
-        PlayerDTO savedPlayer = playerService.createPlayer(playerDTO.getPlayerName(), playerDTO.getId());
+    public ResponseEntity<PlayerDTO> addPlayer(@RequestBody PlayerDTO playerDTO, Authentication authentication){
+        PlayerDTO savedPlayer = playerService.createPlayer(playerDTO.getPlayerName(), authentication);
         return ResponseEntity.ok(savedPlayer);
     }
 
     @PutMapping("/")
     public ResponseEntity<PlayerDTO> updatePlayer(@RequestBody PlayerDTO playerDTO){
-        PlayerDTO updatedPlayer = playerService.updatePlayerName(playerDTO, playerDTO.getPlayerName());
+        PlayerDTO updatedPlayer = playerService.updatePlayerName(playerDTO.getId(), playerDTO.getPlayerName());
         return ResponseEntity.ok(updatedPlayer);
     }
 

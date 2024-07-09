@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -30,7 +31,7 @@ public class Game {
     @Column(name = "is_won")
     private boolean isWon;
     @Column(name = "game_date")
-    private LocalDateTime gameDate;
+    private Date gameDate;
 
     public boolean isWon() {
         return (diceRoll1 + diceRoll2 == 7);

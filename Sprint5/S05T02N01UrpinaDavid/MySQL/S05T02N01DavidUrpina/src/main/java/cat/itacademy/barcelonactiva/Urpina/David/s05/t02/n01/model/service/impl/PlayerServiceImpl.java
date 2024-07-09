@@ -4,18 +4,23 @@ import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.exception.PlayerAlr
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.exception.PlayerNotFoundException;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.domain.Game;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.domain.Player;
+import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.domain.User;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.dto.GameDTO;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.dto.PlayerDTO;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.repository.GameRepository;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.repository.PlayerRepository;
+import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.service.AuthService;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.service.GameService;
 import cat.itacademy.barcelonactiva.Urpina.David.s05.t02.n01.model.service.PlayerService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +31,8 @@ public class PlayerServiceImpl implements PlayerService {
     private PlayerRepository playerRepository;
     @Autowired
     private GameServiceImpl gameService;
+    @Autowired
+    private AuthService authService;
 
     public PlayerDTO convertToDTO(Player player) {
         PlayerDTO dto = new PlayerDTO();
@@ -57,20 +64,26 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public PlayerDTO createPlayer(String playerName, Long id) {
+    public PlayerDTO createPlayer(String playerName, Authentication authentication) {
+        List<Game> gameList = new ArrayList<>();
+        User userAuth = authService.getUserFromAuthentication(authentication);
+
         Player newPlayer = new Player();
 
         String validatedName = validateName(playerName);
 
         newPlayer.setPlayerName(validatedName);
         newPlayer.setRegistrationDate(LocalDateTime.now());
+        newPlayer.setUser(userAuth);
+
+        newPlayer.setGameList(gameList);
 
         return convertToDTO(playerRepository.save(newPlayer));
     }
 
     @Override
-    public PlayerDTO updatePlayerName(PlayerDTO dto, String newName) {
-        Player playerToUpdate = playerRepository.findById(dto.getId()).orElseThrow(() -> new PlayerNotFoundException("Player not found by ID: " + (dto.getId())));
+    public PlayerDTO updatePlayerName(Long playerId, String newName) {
+        Player playerToUpdate = playerRepository.findById(playerId).orElseThrow(() -> new PlayerNotFoundException("Player not found by ID: " + playerId));
 
         String validatedName = validateName(newName);
         playerToUpdate.setPlayerName(validatedName);

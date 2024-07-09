@@ -13,6 +13,6 @@ public class GameDTO {
     private long id;
     private int diceRoll1;
     private int diceRoll2;
-    private Player player;
+    private String playerName;
     private boolean won;
 }

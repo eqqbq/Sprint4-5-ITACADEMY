@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public class GameServiceImpl implements GameService {
         dto.setId(game.getGameId());
         dto.setDiceRoll1(game.getDiceRoll1());
         dto.setDiceRoll2(game.getDiceRoll2());
+        dto.setPlayerName(game.getPlayer().getPlayerName());
         dto.setWon(game.isWon());
 
         return dto;
@@ -60,6 +63,8 @@ public class GameServiceImpl implements GameService {
         newGame.setDiceRoll2(diceRoll2);
 
         newGame.setWon(newGame.isWon());
+        newGame.setGameDate(new Date());
+        newGame.setPlayer(player);
 
         player.addGame(newGame);
 
